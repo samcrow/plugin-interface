@@ -56,7 +56,7 @@ namespace {
 /**
  * The plugin.
  */
-Plugin* plugin;
+PLUGIN_CLASS_NAME* plugin;
 
 void reportError(const std::string& failureString, const std::string& extraInfo = std::string()) {
     std::stringstream stream;
