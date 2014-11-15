@@ -51,24 +51,26 @@
 // Include plugin header
 #include PLUGIN_HEADER_NAME_STR
 
+namespace {
+
 /**
  * The plugin.
  */
-static Plugin * plugin;
+Plugin* plugin;
 
-namespace {
-    void reportError(const std::string& failureString, const std::string& extraInfo = std::string()) {
-        std::stringstream stream;
-        if(!extraInfo.empty()) {
-            stream << "Plugin " << PLUGIN_CLASS_NAME_STR << ' ' << failureString << ": " << extraInfo << '\n';
-        }
-        else {
-            stream << "Plugin " << PLUGIN_CLASS_NAME_STR << ' ' << failureString << '\n';
-        }
-        const std::string errorString = stream.str();
-        XPLMDebugString(errorString.c_str());
-        std::cerr << errorString;
+void reportError(const std::string& failureString, const std::string& extraInfo = std::string()) {
+    std::stringstream stream;
+    if(!extraInfo.empty()) {
+        stream << "Plugin " << PLUGIN_CLASS_NAME_STR << ' ' << failureString << ": " << extraInfo << '\n';
     }
+    else {
+        stream << "Plugin " << PLUGIN_CLASS_NAME_STR << ' ' << failureString << '\n';
+    }
+    const std::string errorString = stream.str();
+    XPLMDebugString(errorString.c_str());
+    std::cerr << errorString;
+}
+
 }
 
 
