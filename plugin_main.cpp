@@ -30,6 +30,7 @@
 #include <sstream>
 #include <iostream>
 #include <XPLMUtilities.h>
+#include "plugin.h"
 
 #ifndef PLUGIN_CLASS_NAME
 #error PLUGIN_CLASS_NAME must be defined
@@ -38,11 +39,17 @@
 #error PLUGIN_HEADER_NAME must be defined
 #endif
 
-/// String literal containing the plugin class name
-#define PLUGIN_CLASS_NAME_STR #PLUGIN_CLASS_NAME
+
+
+#define STR(x) #x
+
+// Make a string literal so that the plugin class can be used in later code
+#define PLUGIN_CLASS_NAME_STR STR(PLUGIN_CLASS_NAME)
+// Surround the header file name with angle brackets to make it valid after and #include
+#define PLUGIN_HEADER_NAME_STR <PLUGIN_HEADER_NAME>
 
 // Include plugin header
-#include #PLUGIN_HEADER_NAME
+#include PLUGIN_HEADER_NAME_STR
 
 /**
  * The plugin.
@@ -99,11 +106,9 @@ PLUGIN_API void	XPluginStop()
     }
     catch (std::exception& ex) {
         reportError("failed to stop (onStop threw exception)", ex.what());
-        return 0;
     }
     catch (...) {
         reportError("failed to stop (onStop threw something)");
-        return 0;
     }
 
     try {
@@ -111,11 +116,9 @@ PLUGIN_API void	XPluginStop()
     }
     catch (std::exception& ex) {
         reportError("destructor threw exception", ex.what());
-        return 0;
     }
     catch (...) {
         reportError("destructor threw something");
-        return 0;
     }
 }
 
