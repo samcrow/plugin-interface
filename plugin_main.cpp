@@ -104,16 +104,6 @@ PLUGIN_API int XPluginStart(
 PLUGIN_API void	XPluginStop()
 {
     try {
-        plugin->onStop();
-    }
-    catch (std::exception& ex) {
-        reportError("failed to stop (onStop threw exception)", ex.what());
-    }
-    catch (...) {
-        reportError("failed to stop (onStop threw something)");
-    }
-
-    try {
         delete plugin;
     }
     catch (std::exception& ex) {

@@ -53,7 +53,10 @@ public:
      */
     Plugin(const std::string& name, const std::string& signature, const std::string& description);
 
-    /// Destructor
+    /**
+     * Destructor: called when the plugin system is about to terminate this plugin.
+     * Plugins should use this to deallocate their resources.
+     */
     virtual ~Plugin() = default;
 
     /**
@@ -82,13 +85,6 @@ public:
      * These are all virtual.
      * A plugin that wants to use an event should override its corresponding method.
      */
-
-    /**
-     * onStop event: Called when the plugin system is about to terminate this plugin.
-     * Plugins should use this to deallocate their resources. The plugin will be
-     * deleted after this event completes.
-     */
-    virtual void onStop() = 0;
 
     /**
      * onDisable event: Called when the plugin system is about to disable this plugin
