@@ -36,3 +36,6 @@ This method has the following advantages:
 
 An example project is available at https://github.com/samcrow/plugin-interface-example .
 
+## Licensing ##
+
+This code is licensed under the very permissive Boost license.
