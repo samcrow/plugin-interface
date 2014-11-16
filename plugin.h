@@ -9,6 +9,7 @@
 
 #include <XPLMUtilities.h>
 #include <string>
+#include <functional>
 
 
 /**
@@ -20,6 +21,8 @@ class Plugin
 {
 public:
 
+    typedef std::function< void () > action_type;
+
     /**
      * Constructor. Provides plugin information to X-Plane.
      *
@@ -29,8 +32,9 @@ public:
      * @param name The name of the plugin
      * @param signature The plugin signature
      * @param description A description of the plugin
+     * @param preSubclassAction An action that will be performed before the Plugin subclass constructor is called
      */
-    Plugin(const std::string& name, const std::string& signature, const std::string& description);
+    Plugin(const std::string& name, const std::string& signature, const std::string& description, action_type preSubclassAction = action_type());
 
     /**
      * Destructor: called when the plugin system is about to terminate this plugin.
