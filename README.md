@@ -30,7 +30,7 @@ This method has the following advantages:
 
 1. Copy the code from this repository into your project.
 2. Create a class that extends Plugin, and implement the appropriate virtual methods
-3. Define the preprocessor macros PLUGIN_CLASS_NAME as the name of your Plugin subclass and PLUGIN_HEADER_NAME as the name of the header file that contains your plugin class
+3. Define the preprocessor macros `PLUGIN_CLASS_NAME` as the name of your Plugin subclass and `PLUGIN_HEADER_NAME` as the name of the header file that contains your plugin class
 
 #### Example ####
 
