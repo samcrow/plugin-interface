@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <iostream>
+#include <memory>
 #include <XPLMUtilities.h>
 #include "plugin.h"
 
@@ -35,8 +36,15 @@ namespace {
 /**
  * The plugin.
  */
-PLUGIN_CLASS_NAME* plugin;
+std::unique_ptr<PLUGIN_CLASS_NAME> plugin;
 
+namespace {
+
+/**
+ * Reports a plugin error
+ * @param failureString A string with information on what failed
+ * @param extraInfo An optional string with more information on the error
+ */
 void reportError(const std::string& failureString, const std::string& extraInfo = std::string()) {
     std::stringstream stream;
     if(!extraInfo.empty()) {
@@ -52,6 +60,8 @@ void reportError(const std::string& failureString, const std::string& extraInfo 
 
 }
 
+}
+
 
 PLUGIN_API int XPluginStart(
                         char *		outName,
@@ -60,7 +70,7 @@ PLUGIN_API int XPluginStart(
 {
     try {
         //Init the plugin
-        plugin = new PLUGIN_CLASS_NAME();
+		plugin.reset(new PLUGIN_CLASS_NAME());
 
         //Get the plugin's information
         std::strcpy(outName, plugin->getName().c_str());
@@ -75,7 +85,7 @@ PLUGIN_API int XPluginStart(
         return 0;
     }
     catch (...) {
-        reportError("failed to start (constructor threw something)");
+		reportError("failed to start (constructor threw an unrecognized type)");
         return 0;
     }
 }
@@ -89,7 +99,7 @@ PLUGIN_API void	XPluginStop()
         reportError("destructor threw exception", ex.what());
     }
     catch (...) {
-        reportError("destructor threw something");
+		reportError("destructor threw an unrecognized type");
     }
 }
 
@@ -97,26 +107,26 @@ PLUGIN_API void	XPluginStop()
 PLUGIN_API void XPluginDisable()
 {
     try {
-        plugin->onDisable();
+		plugin->disable();
     }
     catch (std::exception& ex) {
         reportError("failed to disable (onDisable threw exception)", ex.what());
     }
     catch (...) {
-        reportError("failed to disable (onDisable threw something)");
+		reportError("failed to disable (onDisable threw an unrecognized type)");
     }
 }
 
 PLUGIN_API void XPluginEnable()
 {
     try {
-        plugin->onEnable();
+		plugin->enable();
     }
     catch (std::exception& ex) {
-        reportError("failed to enable (onEnable threw exception)", ex.what());
+		reportError("failed to enable (enable threw exception)", ex.what());
     }
     catch (...) {
-        reportError("failed to enable (onEnable threw something)");
+		reportError("failed to enable (ennable threw an unrecognized type)");
     }
 }
 
@@ -126,12 +136,12 @@ PLUGIN_API void XPluginReceiveMessage(
                     void *			inParam)
 {
     try {
-        plugin->onMessageReceived(inFromWho, inMessage, inParam);
+		plugin->messageReceived(inFromWho, inMessage, inParam);
     }
     catch (std::exception& ex) {
         reportError("onMessageReceived threw exception", ex.what());
     }
     catch (...) {
-        reportError("onMessageReceived threw something");
+		reportError("onMessageReceived threw an unrecognized type");
     }
 }

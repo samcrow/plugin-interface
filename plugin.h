@@ -9,8 +9,6 @@
 
 #include <XPLMUtilities.h>
 #include <string>
-#include <functional>
-
 
 /**
  *@brief An abstract base class for an X-plane plugin
@@ -21,8 +19,6 @@ class Plugin
 {
 public:
 
-    typedef std::function< void () > action_type;
-
     /**
      * Constructor. Provides plugin information to X-Plane.
      *
@@ -31,10 +27,9 @@ public:
      *
      * @param name The name of the plugin
      * @param signature The plugin signature
-     * @param description A description of the plugin
-     * @param preSubclassAction An action that will be performed before the Plugin subclass constructor is called
+	 * @param description A description of the plugin
      */
-    Plugin(const std::string& name, const std::string& signature, const std::string& description, action_type preSubclassAction = action_type());
+	Plugin(const std::string& name, const std::string& signature, const std::string& description);
 
     /**
      * Destructor: called when the plugin system is about to terminate this plugin.
@@ -72,7 +67,7 @@ public:
     /**
      * onDisable event: Called when the plugin system is about to disable this plugin
      */
-    virtual void onDisable() = 0;
+	virtual void disable() = 0;
 
     /**
      * onEnable event: Called when the plugin system wants to enable this plugin.
@@ -82,13 +77,13 @@ public:
      * @throws Implementation should throw exceptions if the plugin cannot be enabled.
      * Exceptions will be caught and reported.
      */
-    virtual void onEnable() = 0;
+	virtual void enable() = 0;
 
     /**
      * onMessageReceived event: Called when this plugin receives a message from another
      * plugin. See the documentation on the XPluginReceiveMessage function for more information.
      */
-    virtual void onMessageReceived(XPLMPluginID sender, long message, void * data);
+	virtual void messageReceived(XPLMPluginID sender, long message, void * data);
 
 protected:
 
@@ -102,23 +97,17 @@ protected:
 private:
 
     /**
-      The name of this plugin. This is sent to X-plane to display in the plugin admin.
-
-      Individual plugins should set this value in their constructors.
+	  The name of this plugin. This is sent to X-plane to display in the plugin admin.
       */
     std::string name;
 
     /**
-      The signature of this plugin (like org.samcrow.plugin_name). This is sent to X-plane to display in the plugin admin.
-
-      Individual plugins should set this value in their constructors.
+	  The signature of this plugin (like org.samcrow.plugin_name). This is sent to X-plane to display in the plugin admin.
       */
     std::string signature;
 
     /**
-      The description of this plugin. This is sent to X-plane to display in the plugin admin.
-
-      Individual plugins should set this value in their constructors.
+	  The description of this plugin. This is sent to X-plane to display in the plugin admin.
       */
     std::string description;
 

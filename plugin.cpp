@@ -6,14 +6,11 @@
 
 #include "plugin.h"
 
-Plugin::Plugin(const std::string& name, const std::string& signature, const std::string& description, action_type preSubclassAction) :
+Plugin::Plugin(const std::string& name, const std::string& signature, const std::string& description) :
     name(name),
     signature(signature),
     description(description)
 {
-    if(preSubclassAction) {
-        preSubclassAction();
-    }
 }
 
 void Plugin::debug(std::string message) {
@@ -22,6 +19,6 @@ void Plugin::debug(std::string message) {
 }
 
 
-void Plugin::onMessageReceived(XPLMPluginID /*sender*/, long /*message*/, void * /*data*/) {
+void Plugin::messageReceived(XPLMPluginID /*sender*/, long /*message*/, void * /*data*/) {
 
 }
